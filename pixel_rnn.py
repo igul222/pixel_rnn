@@ -324,8 +324,6 @@ def generate_and_save_samples(tag):
 
         scipy.misc.toimage(images, cmin=0.0, cmax=1.0).save('{}_{}.jpg'.format(filename, tag))
 
-    # samples = train_data().next()[0].reshape((BATCH_SIZE, HEIGHT, WIDTH, 1))
-    # samples = binarize(samples)
     samples = numpy.zeros((100, HEIGHT, WIDTH, 1), dtype='float32')
 
     for i in xrange(HEIGHT):
