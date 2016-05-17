@@ -1,4 +1,3 @@
-import ops
 import utils
 import mnist
 
