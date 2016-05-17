@@ -174,7 +174,7 @@ def Skew(inputs):
 
 def Unskew(padded):
     """
-    input.shape: (batch size, HEIGHT, WIDTH, dim)
+    input.shape: (batch size, HEIGHT, 2*WIDTH - 1, dim)
     """
     return T.stack([padded[:, i, i:i+WIDTH, :] for i in xrange(HEIGHT)], axis=1)
 
