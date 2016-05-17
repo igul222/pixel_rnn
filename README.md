@@ -8,7 +8,7 @@ Not yet implemented:
 
 The Diagonal BiLSTM gets a dev-set NLL of 86.29 after 6000 iterations (at which point it still hasn't fully converged).
 
-Samples from the Diagonal BiLSTM:
+Samples from the Diagonal BiLSTM after 6000 iterations:
 
 ![Diagonal BiLSTM samples](https://raw.githubusercontent.com/igul222/pixel_rnn/master/samples.jpg)
 
