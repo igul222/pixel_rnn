@@ -8,6 +8,7 @@ sys.path.append(os.getcwd())
 
 try: # This only matters on Ishaan's computer
     import experiment_tools
+    experiment_tools.register_crash_notifier()
     experiment_tools.wait_for_gpu(high_priority=False)
 except ImportError:
     pass
@@ -31,7 +32,7 @@ MODEL = 'pixel_rnn' # either pixel_rnn or pixel_cnn
 
 # Hyperparams
 BATCH_SIZE = 100
-DIM = 32 # Model dimensionality.
+DIM = 64 # Model dimensionality.
 GRAD_CLIP = 1 # Elementwise grad clip threshold
 
 # Dataset
@@ -40,14 +41,14 @@ WIDTH = 28
 HEIGHT = 28
 
 # Other constants
-TEST_BATCH_SIZE = 5000 # batch size to use when evaluating on dev/test sets. This should be the max that can fit into GPU memory.
+TEST_BATCH_SIZE = 100 # batch size to use when evaluating on dev/test sets. This should be the max that can fit into GPU memory.
 EVAL_DEV_COST = True # whether to evaluate dev cost during training
 GEN_SAMPLES = True # whether to generate samples during training (generating samples takes WIDTH*HEIGHT*N_CHANNELS full passes through the net)
 TRAIN_MODE = 'iters' # 'iters' to use PRINT_ITERS and STOP_ITERS, 'time' to use PRINT_TIME and STOP_TIME
-PRINT_ITERS = 1000 # Print cost, generate samples, save model checkpoint every N iterations.
+PRINT_ITERS = 5000 # Print cost, generate samples, save model checkpoint every N iterations.
 STOP_ITERS = 100000 # Stop after this many iterations
 PRINT_TIME = 60*60 # Print cost, generate samples, save model checkpoint every N seconds.
-STOP_TIME = 60*60*12 # Stop after this many seconds of actual training (not including time req'd to generate samples etc.)
+STOP_TIME = 60*60*2 # Stop after this many seconds of actual training (not including time req'd to generate samples etc.)
 
 lib.utils.print_model_settings(locals().copy())
 
@@ -255,11 +256,14 @@ inputs = T.tensor4('inputs')
 output = Conv2D('InputConv', N_CHANNELS, DIM, 7, inputs, mask_type='a')
 
 if MODEL=='pixel_rnn':
+
     output = DiagonalBiLSTM('LSTM1', DIM, output)
+    output = DiagonalBiLSTM('LSTM2', DIM, output)
+
 elif MODEL=='pixel_cnn':
-    # The paper doesn't specify how many convs to use, so I picked 10 pretty
+    # The paper doesn't specify how many convs to use, so I picked 4 pretty
     # arbitrarily.
-    for i in xrange(10):
+    for i in xrange(4):
         output = Conv2D('PixelCNNConv'+str(i), DIM, DIM, 3, output, mask_type='b', he_init=True)
         output = relu(output)
 

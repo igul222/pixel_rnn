@@ -6,9 +6,9 @@ Not yet implemented:
 - Residual connections
 - 256-way softmax output
 
-The Diagonal BiLSTM gets a dev-set NLL of 85.28 after 10K iterations (at which point it still hasn't fully converged).
+The Diagonal BiLSTM gets a dev-set NLL of 82.12 after 100K iterations (at which point it still hasn't fully converged).
 
-Samples from the Diagonal BiLSTM after 10K iterations:
+Samples from the Diagonal BiLSTM after 100K iterations:
 
 ![Diagonal BiLSTM samples](https://raw.githubusercontent.com/igul222/pixel_rnn/master/samples.jpg)
 
